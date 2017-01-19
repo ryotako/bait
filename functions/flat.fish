@@ -2,7 +2,7 @@ function flat --description 'print whole the inputs'
 	set -l buf
   set -l i 0
 
-	while read line
+	while read -a line
     set buf $buf $line
 
     set i (math $i+1)

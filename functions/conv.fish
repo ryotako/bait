@@ -1,6 +1,6 @@
 function conv --description 'print the inputs like the convolution'
 	set -l buf
-  while read line
+  while read -a line
     set buf $buf $line
   end
 
