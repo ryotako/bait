@@ -12,5 +12,7 @@ function flat --description 'print whole the inputs'
       set i 0
     end
   end
-  echo $buf
+  if test $i -ne 0
+    echo $buf
+  end
 end
