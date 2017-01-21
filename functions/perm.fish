@@ -1,7 +1,7 @@
 function perm
 
   function __perm
-    read -a line
+    read -al line
     if test "$argv[1]" -eq 1
       for word in $line
         echo $word
@@ -36,7 +36,7 @@ function perm
     end
   end
 
-  while read line
+  while read -l line
     echo $line | __perm "$argv[1]"
   end
 

@@ -1,5 +1,5 @@
 function takerx
-  while read -a line
+  while read -al line
     set -l buf
     set -l matched 0
     if test -z "$argv[1]"

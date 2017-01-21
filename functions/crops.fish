@@ -1,5 +1,5 @@
 function crops
-  while read line
+  while read -l line
     set -l length (string length $line)
     set -l start 1
     set -l buf

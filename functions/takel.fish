@@ -1,5 +1,5 @@
 function takel
-  while read -a line
+  while read -al line
     if test "$argv[1]" -gt 0
       if test "$argv[1]" -gt (count $line)
         echo $line

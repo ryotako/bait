@@ -1,5 +1,5 @@
 function zniq
-  while read -a line
+  while read -al line
     set -l buf
     for word in $line
       if not contains $word $buf

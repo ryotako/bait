@@ -4,7 +4,7 @@ function subset
     set -l length $argv[1]
     set -l i $argv[1]
 
-    read -a line
+    read -al line
     while test $i -le (count $line)
 
       if test $length -le 1
@@ -20,7 +20,7 @@ function subset
     end
   end
 
-  while read -a line
+  while read -al line
     set -l i 1
     while test $i -le (count $line)
       echo $line | __subset $i

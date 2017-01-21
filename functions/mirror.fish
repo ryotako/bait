@@ -1,5 +1,5 @@
 function mirror
-  while read -a line
+  while read -al line
     echo $line[-1..1]
   end
 end

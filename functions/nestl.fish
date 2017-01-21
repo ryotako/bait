@@ -9,7 +9,7 @@ function nestl
     end
   end
 
-  while read line
+  while read -l line
     echo $line | __nestl $argv
   end
 end

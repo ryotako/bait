@@ -1,9 +1,8 @@
 function dupl
-  while read line
-    set -l i 1
-    while test $i -le "$argv[1]"
+  while read -l line
+    if test "$argv[1]" -gt 0
       echo $line
-      set i (math $i + 1)
+      echo $line | dupl (math "$argv[1]" - 1)
     end
   end
 end

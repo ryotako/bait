@@ -9,7 +9,7 @@ function nestr
     end
   end
 
-  while read line
+  while read -l line
     echo $line | __nestr $argv
   end
 end

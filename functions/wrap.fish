@@ -1,5 +1,5 @@
 function wrap
-  while read -a line
+  while read -al line
     set -l buf
     for word in $line
       set buf $buf (string replace \* $word "$argv[1]")

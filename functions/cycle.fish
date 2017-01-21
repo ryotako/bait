@@ -1,5 +1,5 @@
 function cycle
-  while read -a line
+  while read -al line
     set -l i 1
     while test $i -le (count $line)
       if test $i -eq 1

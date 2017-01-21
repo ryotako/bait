@@ -1,5 +1,5 @@
 function sublist
-  while read -a line
+  while read -al line
     set -l lst 1
     while test $lst -le (count $line)
       set -l fst 1

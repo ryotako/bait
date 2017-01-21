@@ -3,7 +3,7 @@ function zrep
     return 0
   end
 
-  while read -a line
+  while read -al line
     set -l buf
     for word in $line
       if string match -qr $argv[1] $word

@@ -4,7 +4,7 @@ function comb
     set -l length $argv[1]
     set -l i $argv[1]
 
-    read -a line
+    read -al line
     while test $i -le (count $line)
 
       if test $length -le 1
@@ -20,7 +20,7 @@ function comb
     end
   end
 
-  while read -a line
+  while read -al line
     if test "$argv[1]" -gt (count $line)
       echo $line | __comb (count $line)
     else if test "$argv[1]" -gt 0

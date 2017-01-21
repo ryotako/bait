@@ -1,6 +1,6 @@
 function slit
 	set -l buf
-  while read -a line
+  while read -al line
     set buf $buf $line
   end
 
