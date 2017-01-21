@@ -1,5 +1,5 @@
 function addb
-  while read line
+  while read -l line
     echo $line
   end
   if count $argv >/dev/null

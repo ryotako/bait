@@ -1,5 +1,7 @@
 function addr
-  while count $argv >/dev/null; and read line
-    echo $argv[1]$line
+  if count $argv >/dev/null
+    while read -l line
+      echo $line$argv[1]
+    end
   end
 end

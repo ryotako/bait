@@ -1,5 +1,7 @@
 function addl
-  while count $argv >/dev/null; and read line
-    echo $line$argv[1]
+  if count $argv >/dev/null
+    while read -l line
+      echo $argv[1]$line
+    end
   end
 end
