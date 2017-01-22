@@ -1,4 +1,4 @@
-function conv --description 'print the inputs like the convolution'
+function conv
 	set -l buf
   while read -al line
     set buf $buf $line

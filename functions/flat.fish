@@ -1,4 +1,4 @@
-function flat --description 'print whole the inputs'
+function flat
 	set -l buf
   set -l i 0
 
