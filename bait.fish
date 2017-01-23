@@ -31,12 +31,14 @@ function bait -d 'controlling records and fields given by particular separators'
     while count $argv >/dev/null
         switch $argv[1]
             case --
-                if test -z "$arg"
+                if test -n "$arg"
+                    echo "bait: too many arguments" >/dev/stderr
+                    return 1
+                else if test (count $argv) -gt 1
                     set arg $arg (string escape -n $argv[2])
                     set -e argv[1..2]
                 else
-                    echo "bait: too many arguments" >/dev/stderr
-                    return 1
+                    set -e argv[1]
                 end
 
             case -h --help
@@ -158,7 +160,16 @@ function bait -d 'controlling records and fields given by particular separators'
         end
     end
 
+    function __bait_mirror -V opt_ofs
+        set -l record (string join $opt_ofs $argv)
+        echo $record[-1..1]
+    end
 
+    function __bait_obrev -V opt_ofs
+        set -l record (string join $opt_ofs $argv)
+        echo $record[-1..1]
+        echo $record[1..-1]
+    end
 
     # execute
     set -l output
