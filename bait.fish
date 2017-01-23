@@ -133,12 +133,21 @@ function bait -d 'controlling records and fields given by particular separators'
     test -n "$opt_eos"
     or set opt_eos '\n'
 
+    # sub commands
+    function __bait_addb -V opt_ofs
+        string join $opt_ofs $argv
+    end
+
     function __bait_addl -V arg -V opt_ofs
         echo "$arg"(string join $opt_ofs $argv)
     end
 
     function __bait_addr -V arg -V opt_ofs
         echo (string join $opt_ofs $argv)"$arg"
+    end
+
+    function __bait_addt -V opt_ofs
+        string join $opt_ofs $argv
     end
 
     function __bait_dupl -V arg -V opt_ofs
@@ -158,7 +167,15 @@ function bait -d 'controlling records and fields given by particular separators'
         set output $output (string join "$opt_eor" (eval __bait_$cmd (string split "$opt_ifs" $input)))
     end
 
+    if test $cmd = addt
+        echo -e $arg
+    end
+
     echo -e (string join $opt_eos $output)
+
+    if test $cmd = addb
+        echo -e $arg
+    end
 
     # echo arg "<$arg>"
     # echo opt_fs "<$opt_fs>"
