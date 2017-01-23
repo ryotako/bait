@@ -32,7 +32,7 @@ function bait -d 'controlling records and fields given by particular separators'
         switch $argv[1]
             case --
                 if test -z "$arg"
-                    set arg $arg "$argv[2]"
+                    set arg $arg (string escape $argv[2])
                     set -e argv[1..2]
                 else
                     echo "bait: too many arguments" >/dev/stderr
@@ -46,35 +46,35 @@ function bait -d 'controlling records and fields given by particular separators'
             case --fs
                 set -e argv[1]
                 if count $argv >/dev/null
-                    set opt_fs $argv[1]
+                    set opt_fs (string escape $argv[1])
                     set -e argv[1]
                 end
 
             case --ifs
                 set -e argv[1]
                 if count $argv >/dev/null
-                    set opt_ifs $argv[1]
+                    set opt_ifs (string escape $argv[1])
                     set -e argv[1]
                 end
 
             case --ofs
                 set -e argv[1]
                 if count $argv >/dev/null
-                    set opt_ofs $argv[1]
+                    set opt_ofs (string escape $argv[1])
                     set -e argv[1]
                 end
 
             case --eor
                 set -e argv[1]
                 if count $argv >/dev/null
-                    set opt_eor $argv[1]
+                    set opt_eor (string escape $argv[1])
                     set -e argv[1]
                 end
 
             case --eos
                 set -e argv[1]
                 if count $argv >/dev/null
-                    set opt_eos $argv[1]
+                    set opt_eos (string escape $argv[1])
                     set -e argv[1]
                 end
 
@@ -88,7 +88,7 @@ function bait -d 'controlling records and fields given by particular separators'
 
             case \*
                 if test -z "$arg"
-                    set arg $argv[1]
+                    set arg (string escape $argv[1])
                     set -e argv[1]
                 else
                     echo "bait: too many arguments" >/dev/stderr
@@ -188,7 +188,7 @@ function __bait_usage
     echo "      wrap    (replace * in STR with the each fields)"
     echo
     echo "where OPTIONS are some of:"
-    echo "      --fs STR   field separator (default: ' ')"
+    echo "      --fs  STR   field separator (default: ' ')"
     echo "      --ifs STR   field separator (default: ' ')"
     echo "      --ofs STR   field separator (default: ' ')"
     echo "      --eor STR   end of record   (default: \\n)"
