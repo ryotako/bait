@@ -116,9 +116,21 @@ function bait -d 'controlling records and fields given by particular separators'
     # implementaions
 
     function __bait_addl -V arg -V opt_ofs
-        echo $arg(string join $opt_ofs $argv)
-        # string join $opt_ofs $argv
+        echo "$arg"(string join $opt_ofs $argv)
     end
+
+    function __bait_addr -V arg -V opt_ofs
+        echo (string join $opt_ofs $argv)"$arg"
+    end
+
+    function __bait_dupl -V arg -V opt_ofs
+        set -l record (string join $opt_ofs $argv)
+        while test "$arg" -gt 0
+            echo $record
+            set arg (math $arg - 1)
+        end
+    end
+
 
 
     # execute
@@ -130,13 +142,13 @@ function bait -d 'controlling records and fields given by particular separators'
 
     echo -e (string join $opt_eos $output)
 
-    echo arg "<$arg>"
-    echo opt_fs "<$opt_fs>"
-    echo opt_ifs "<$opt_ifs>"
-    echo opt_ofs "<$opt_ofs>"
-    echo opt_eor "<$opt_eor>"
-    echo opt_eos "<$opt_eos>"
-    echo opt_each "<$opt_each>"
+    # echo arg "<$arg>"
+    # echo opt_fs "<$opt_fs>"
+    # echo opt_ifs "<$opt_ifs>"
+    # echo opt_ofs "<$opt_ofs>"
+    # echo opt_eor "<$opt_eor>"
+    # echo opt_eos "<$opt_eos>"
+    # echo opt_each "<$opt_each>"
 end
 
 
