@@ -108,108 +108,37 @@ function bait -d 'controlling records and fields given by particular separators'
     or set opt_ofs $opt_fs
 
     test -n "$opt_eor"
-    or set opt_eor \n
+    or set opt_eor '\n'
 
     test -n "$opt_eos"
-    or set opt_eos \n
+    or set opt_eos '\n'
 
     # implementaions
 
-    # addl
-    function __bait_addl -V opt_ofs -V arg
-        if test (count $arg) -gt 0
-            printf "%s%s" $arg (string join $opt_ofs $argv)
-        else
-            return 1
-        end
-    end
-
-    # addr
-    function __bait_addr -V opt_ofs -V arg
-        if test (count $arg) -gt 0
-            printf "%s%s" (string join $opt_ofs $argv) $arg
-        else
-            return 1
-        end
-    end
-
-    function __bait_comb -V opt_ofs -V arg
-        if test (count $arg) -gt 0
-            printf "%s%s" (string join $opt_ofs $argv) $arg
-        else
-            return 1
-        end
-    end
-
-    # dupl
-    function __bait_dupl -V opt_ofs -V opt_eor -V arg
-        set -l record (string join $opt_ofs $argv)
-        while test "$arg" -gt 1
-            printf $record$opt_eor
-            set arg (math $arg - 1)
-        end
-        if test "$arg" -gt 0
-            printf $record
-        else
-            return 1
-        end
+    function __bait_addl -V arg -V opt_ofs
+        echo $arg(string join $opt_ofs $argv)
+        # string join $opt_ofs $argv
     end
 
 
-    # execute 
-    if test $cmd = addt
-        printf $arg
+    # execute
+    set -l output
+
+    while read -l input
+        set output $output (string join "$opt_eor" (eval __bait_$cmd (string split "$opt_ifs" $input)))
     end
 
-    set -l i 1
-    while read -l line
-        if test $i -eq 1 -a $i -eq 1
-            printf $opt_eos
-        else
-            printf $opt_eos
-        end
+    echo -e (string join $opt_eos $output)
 
-        switch $cmd
-            case addb addt
-                printf (string join $opt_ofs (string split $opt_ifs $line))
-
-            case addl
-                __bait_addl (string split $opt_ifs $line)
-
-            case addr
-                __bait_addr (string split $opt_ifs $line)
-
-            case dupl
-                __bait_dupl (string split $opt_ifs $line)
-        end
-
-        or begin
-            echo "Usage: bait [COMMAND] [OPTIONS] [N or STR]" >/dev/stderr
-            return 1
-        end
-
-        set i (math $i + 1)
-    end
-
-    if test $cmd = addb
-        print $arg
-        if test $i -gt 1
-            print "%s%s" $opt_eos $arg
-        end
-    end
-
-    echo ""
-
-
-
-    # echo arg "<$arg>"
-    # echo opt_fs "<$opt_fs>"
-    # echo opt_ifs "<$opt_ifs>"
-    # echo opt_ofs "<$opt_ofs>"
-    # echo opt_eor "<$opt_eor>"
-    # echo opt_eos "<$opt_eos>"
-    # echo opt_each "<$opt_each>"
+    echo arg "<$arg>"
+    echo opt_fs "<$opt_fs>"
+    echo opt_ifs "<$opt_ifs>"
+    echo opt_ofs "<$opt_ofs>"
+    echo opt_eor "<$opt_eor>"
+    echo opt_eos "<$opt_eos>"
+    echo opt_each "<$opt_each>"
 end
+
 
 
 function __bait_usage
