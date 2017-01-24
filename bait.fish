@@ -100,8 +100,16 @@ function bait -d 'controlling records and fields given by particular separators'
     end
 
     # check argument value
+    #
+    # number is required:
+    #   comb dropl dropr dupl perm takel taker
+    # number is optional (default value):
+    #   conv(1) flat(number of input fields) slit(number of input fields)
+    # string is required:
+    #   addb addl addr addt crops grep nestl nestr takelx takerx wrap
+    #
     switch $cmd
-        case comb conv dropl dropr dupl flat perm slit takel taker
+        case comb dropl dropr dupl perm takel taker
             if not test "$arg" -gt 0
                 printf "bait: invalid number argument '%s'\n" "$arg" >/dev/stderr
                 return 1
@@ -111,6 +119,8 @@ function bait -d 'controlling records and fields given by particular separators'
                 echo "bait: argument is required" >/dev/stderr
                 return 1
             end
+        case conv flat slit
+            # argument is optional
         case '*'
             if count $arg >/dev/null
                 echo "bait: argument is not required" >/dev/stderr
@@ -136,23 +146,68 @@ function bait -d 'controlling records and fields given by particular separators'
     or set opt_eos '\n'
 
     # sub commands
+    #
+    # the first argument is a parameter for the subcommant
+    # the rest is array of the input fields
+    #
+
     function __bait_addb -V opt_ofs
+        set -e argv[1]
         string join $opt_ofs $argv
     end
 
-    function __bait_addl -V arg -V opt_ofs
+    function __bait_addl -V opt_ofs -a arg
+        set -e argv[1]
         echo "$arg"(string join $opt_ofs $argv)
     end
 
-    function __bait_addr -V arg -V opt_ofs
+    function __bait_addr -V opt_ofs -a arg
+        set -e argv[1]
         echo (string join $opt_ofs $argv)"$arg"
     end
 
     function __bait_addt -V opt_ofs
+        set -e argv[1]
         string join $opt_ofs $argv
     end
 
-    function __bait_dupl -V arg -V opt_ofs
+    function __bait_comb -V opt_ofs -a arg
+        set -e argv[1]
+        if test $arg -eq 1
+            for field in $argv
+                echo $field
+            end
+        else if test "$arg" -gt (count $argv)
+            string join $opt_ofs $argv
+        else if test "$arg" -gt 1
+            set -l i $arg
+            set arg (math $arg - 1)
+            while test $i -le (count $argv)
+                set -l i_ (math $i - 1)
+                for former in (__bait_comb "$arg" $argv[1..$i_])
+                    string join $opt_ofs $former $argv[$i]
+                end
+                set i (math $i + 1)
+            end
+        end
+
+    end
+
+    function __bait_conv -V opt_ofs -a arg
+        set -e argv[1]
+        if test -z "$arg"
+            set arg 1
+        end
+        if test "$arg" -le (count $argv)
+            string join $opt_ofs $argv[1..$arg]
+            set -e argv[1]
+            __bait_conv $arg $argv
+        end
+    end
+
+    function __bait_dupl -V opt_ofs
+        set -l arg "$argv[1]"
+        set -e argv[1]
         set -l record (string join $opt_ofs $argv)
         while test "$arg" -gt 0
             echo $record
@@ -161,11 +216,13 @@ function bait -d 'controlling records and fields given by particular separators'
     end
 
     function __bait_mirror -V opt_ofs
+        set -e argv[1]
         set -l record (string join $opt_ofs $argv)
         echo $record[-1..1]
     end
 
     function __bait_obrev -V opt_ofs
+        set -e argv[1]
         set -l record (string join $opt_ofs $argv)
         echo $record[-1..1]
         echo $record[1..-1]
@@ -175,7 +232,7 @@ function bait -d 'controlling records and fields given by particular separators'
     set -l output
 
     while read -l input
-        set output $output (string join "$opt_eor" (eval __bait_$cmd (string split "$opt_ifs" $input)))
+        set output $output (string join "$opt_eor" (eval __bait_$cmd "$arg" (string split "$opt_ifs" $input)))
     end
 
     if test $cmd = addt
