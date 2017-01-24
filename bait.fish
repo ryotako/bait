@@ -190,7 +190,6 @@ function bait -d 'controlling records and fields given by particular separators'
                 set i (math $i + 1)
             end
         end
-
     end
 
     function __bait_conv -V opt_ofs -a arg
@@ -205,8 +204,60 @@ function bait -d 'controlling records and fields given by particular separators'
         end
     end
 
-    function __bait_dupl -V opt_ofs
-        set -l arg "$argv[1]"
+    # this command manipulate the input as an string rather than fields
+    function __bait_crops -V opt_ifs -a arg
+        set -e argv[1]
+        set -l input (string join "$opt_ifs" $argv)
+        set -l start 1
+        set -l length (string length $input)
+        set -l matchedecho 1110100110 | crops "1.*1"
+        while test $start -le $length
+            set -l i 1
+            while test $i -le (math $length - $start + 1)
+                set -l sub (string sub -s $start -l $i $input)
+                if not contains "$sub" $matched
+                    and string match -qr "^$arg\$" "$sub"
+
+                    set matched $matched "$sub"
+                    echo $sub
+                end
+                set i (math $i + 1)
+            end
+            set start (math $start + 1)
+        end
+    end
+
+    # argument is not required
+    function __bait_cycle -V opt_ofs
+        if test (count $argv) -eq 1
+            echo $argv
+        else
+            set -l i 1
+            while test $i -le (count $argv)
+                string join $opt_ofs $argv
+                set argv $argv[2..-1] $argv[1]
+                set i (math $i + 1)
+            end
+        end
+    end
+
+    function __bait_dropl -V opt_ofs -a arg
+        set -e argv[1]
+        if test "$arg" -lt (count $argv)
+            set -l i (math $arg + 1)
+            string join $opt_ofs $argv[$i..-1]
+       end 
+    end
+
+    function __bait_dropr -V opt_ofs -a arg
+        set -e argv[1]
+        if test "$arg" -lt (count $argv)
+            set -l i (math - $arg - 1)
+            string join $opt_ofs $argv[1..$i]
+       end 
+    end
+
+    function __bait_dupl -V opt_ofs -a arg
         set -e argv[1]
         set -l record (string join $opt_ofs $argv)
         while test "$arg" -gt 0
@@ -232,7 +283,7 @@ function bait -d 'controlling records and fields given by particular separators'
     set -l output
 
     while read -l input
-        set output $output (string join "$opt_eor" (eval __bait_$cmd "$arg" (string split "$opt_ifs" $input)))
+        set output $output (string join "$opt_eor" (eval __bait_$cmd $arg (string split "$opt_ifs" $input)))
     end
 
     if test $cmd = addt
