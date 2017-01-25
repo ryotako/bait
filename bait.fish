@@ -283,7 +283,7 @@ function bait -d 'controlling records and fields given by particular separators'
     function __bait_nestl -V opt_ofs -a arg
         set -e argv[1]
         if test (count $argv) -gt 1
-            string replace \* (__bait_nestl "$arg" $argv[1..-2])"$opt_ofs$argv[-1]$opt_ofs" "$arg"
+            string replace \* "$opt_ofs"(__bait_nestl "$arg" $argv[1..-2])"$opt_ofs$argv[-1]$opt_ofs" "$arg"
         else
             string replace \* "$opt_ofs$argv[1]$opt_ofs" "$arg"
         end
@@ -292,7 +292,7 @@ function bait -d 'controlling records and fields given by particular separators'
     function __bait_nestr -V opt_ofs -a arg
         set -e argv[1]
         if test (count $argv) -gt 1
-            string replace \* "$opt_ofs$argv[1]$opt_ofs"(__bait_nestr "$arg" $argv[2..-1]) "$arg"
+            string replace \* "$opt_ofs$argv[1]$opt_ofs"(__bait_nestr "$arg" $argv[2..-1])"$opt_ofs" "$arg"
         else
             string replace \* "$opt_ofs$argv[1]$opt_ofs" "$arg"
         end
