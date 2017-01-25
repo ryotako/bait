@@ -235,7 +235,7 @@ function bait -d 'controlling records and fields given by particular separators'
     # argument is not required
     function __bait_cycle -V opt_ofs
         if test (count $argv) -eq 1
-            echo $argv
+            echo $argv[1]
         else
             set -l i 1
             while test $i -le (count $argv)
