@@ -292,17 +292,30 @@ function bait -d 'controlling records and fields given by particular separators'
     end
 
     # execute
-    set -l output
+    set -l output_sets
 
     while read -l input
-        set output $output (string join "$opt_eor" (eval __bait_$cmd $arg (string split "$opt_ifs" $input)))
+        set -l input_fields (string split "$opt_ifs" $input)
+
+        # set value of the optional argument
+        if test -z "$arg"
+            switch $cmd
+                case conv
+                    set arg 1
+                case flat slit
+                    set arg (count $input_fields)
+            end
+        end
+
+        set -l outpot_records (eval __bait_$cmd $arg $input_fields)
+        set output_sets $output (string join "$opt_eor" $outpot_records)
     end
 
     if test $cmd = addt
         echo -e $arg
     end
 
-    echo -e (string join $opt_eos $output)
+    echo -e (string join $opt_eos $output_sets)
 
     if test $cmd = addb
         echo -e $arg
@@ -329,7 +342,7 @@ function __bait_usage
     echo "      addt    (add STR to the top)"
     echo "      comb    (generate combinations of N of the fields)"
     echo "      conv    (convolute with rectangular function of width N)"
-    echo "      crops   (crop all the patterns which matches STR)"
+    echo "      crops   (crop all the patterns matching STR)"
     echo "      cycle   (generate all the circulated patterns)"
     echo "      dropl   (remove the first N fields)"
     echo "      dropr   (remove the last N field)"
@@ -360,5 +373,5 @@ function __bait_usage
     echo "      --eor STR   end of record   (default: \\n)"
     echo "      --eos STR   end of set      (default: \\n)"
     echo "      --each      manipulate input lines respectively"
-    echo "                  available for flat / conv / slit commands"
+    echo "                  (available for flat / conv / slit commands)"
 end
