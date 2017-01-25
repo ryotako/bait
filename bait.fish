@@ -268,6 +268,18 @@ function bait -d 'controlling records and fields given by particular separators'
         end
     end
 
+    function __bait_flat -V opt_ofs -a arg
+        set -e argv[1]
+        if test $arg -lt (count $argv)
+            string join $opt_ofs $argv[1..$arg]
+            set -l i (math $arg + 1)
+            set argv $argv[$i..-1]
+            __bait_flat $arg $argv
+        else
+            string join $opt_ofs $argv
+        end
+    end
+
     # argument is not required
     function __bait_mirror -V opt_ofs
         string join $opt_ofs $argv[-1..1]
