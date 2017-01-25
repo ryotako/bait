@@ -266,17 +266,15 @@ function bait -d 'controlling records and fields given by particular separators'
         end
     end
 
+    # argument is not required
     function __bait_mirror -V opt_ofs
-        set -e argv[1]
-        set -l record (string join $opt_ofs $argv)
-        echo $record[-1..1]
+        string join $opt_ofs $argv[-1..1]
     end
 
+    # argument is not required
     function __bait_obrev -V opt_ofs
-        set -e argv[1]
-        set -l record (string join $opt_ofs $argv)
-        echo $record[-1..1]
-        echo $record[1..-1]
+        string join $opt_ofs $argv
+        string join $opt_ofs $argv[-1..1]
     end
 
     # execute
