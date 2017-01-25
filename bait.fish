@@ -199,10 +199,7 @@ function bait -d 'controlling records and fields given by particular separators'
 
     function __bait_conv -V opt_ofs -a arg
         set -e argv[1]
-        if test -z "$arg"
-            set arg 1
-        end
-        if test "$arg" -le (count $argv)
+        if test $arg -le (count $argv)
             string join $opt_ofs $argv[1..$arg]
             set -e argv[1]
             __bait_conv $arg $argv
