@@ -121,6 +121,11 @@ function bait -d 'controlling records and fields given by particular separators'
             end
         case conv flat slit
             # argument is optional
+            if test -n "$arg"
+                and not test $arg -gt 0
+                printf "bait: invalid number argument '%s'\n" "$arg" >/dev/stderr
+                return 1
+            end
         case '*'
             if count $arg >/dev/null
                 echo "bait: argument is not required" >/dev/stderr
