@@ -326,7 +326,7 @@ function bait -d 'controlling records and fields given by particular separators'
         end
 
         set -l outpot_records (eval __bait_$cmd $arg $input_fields)
-        set output_sets $output (string join "$opt_eor" $outpot_records)
+        set output_sets $output_sets (string join "$opt_eor" $outpot_records)
     end
 
     # optput
