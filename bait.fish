@@ -309,6 +309,27 @@ function bait -d 'controlling records and fields given by particular separators'
         string join $opt_ofs $argv[-1..1]
     end
 
+    function __bait_perm -V opt_ofs -a arg
+        set -e argv[1]
+        if test $arg -eq 1
+            for field in $argv
+                echo $field
+            end
+        else if test "$arg" -gt (count $argv)
+            __bait_perm (count $argv) $argv
+        else if test "$arg" -gt 1
+            set arg (math $arg - 1)
+            set -l i 1
+            while test $i -le (count $argv)
+                set -l rest $argv
+                set -e rest[$i]
+                for latter in (__bait_perm "$arg" $rest)
+                    string join $opt_ofs $argv[$i] $latter
+                end
+                set i (math $i + 1)
+            end
+        end
+    end
     # execute
     set -l output_sets
 
