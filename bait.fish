@@ -195,7 +195,7 @@ function bait -d 'controlling records and fields given by particular separators'
         set -l input (string join "$opt_ifs" $argv)
         set -l start 1
         set -l length (string length $input)
-        set -l matchedecho 1110100110 | crops "1.*1"
+        set -l matched
         while test $start -le $length
             set -l i 1
             while test $i -le (math $length - $start + 1)
