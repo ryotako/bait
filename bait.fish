@@ -2,16 +2,16 @@ function bait -d 'controlling records and fields given by particular separators'
     # declare variables
     set -l arg
     set -l cmd
-    set -l opt_fs
-    set -l opt_ifs
-    set -l opt_ofs
-    set -l opt_eor
-    set -l opt_eos
+    set -l opt_fs  ' '
+    set -l opt_ifs ' '
+    set -l opt_ofs ' '
+    set -l opt_eor '\n'
+    set -l opt_eos '\n'
     set -l opt_each 0 # 0 or 1
 
     set -l c addb addl addr addt comb conv crops cycle dropl dropr dupl flat
     set c $c grep mirror nestl nestr obrev perm slit stairl stairr sublist
-    set c $c subset takel takelx taker takerx uniq wrap uniq
+    set c $c subset takel takelx taker takerx uniq wrap
     set -l bait_commands $c
 
     # parse a command
@@ -132,23 +132,6 @@ function bait -d 'controlling records and fields given by particular separators'
                 return 1
             end
     end
-
-
-    # set dafault values of options
-    test -n "$opt_fs"
-    or set opt_fs ' '
-
-    test -n "$opt_ifs"
-    or set opt_ifs $opt_fs
-
-    test -n "$opt_ofs"
-    or set opt_ofs $opt_fs
-
-    test -n "$opt_eor"
-    or set opt_eor '\n'
-
-    test -n "$opt_eos"
-    or set opt_eos '\n'
 
     # sub commands
     #
