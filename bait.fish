@@ -383,15 +383,15 @@ function bait -d 'controlling records and fields given by particular separators'
         set output_sets $output_sets (string join "$opt_eor" $outpot_records)
     end
 
-    # optput
+    # write optputs
     if test $cmd = addt
-        echo -e $arg
+        echo -en $arg$opt_eor
     end
 
-    echo -e (string join $opt_eos $output_sets)
+    echo -en (string join $opt_eos $output_sets)
 
     if test $cmd = addb
-        echo -e $arg
+        echo -en $opt_eor$arg
     end
 
 end
