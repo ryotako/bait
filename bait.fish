@@ -330,10 +330,43 @@ function bait -d 'controlling records and fields given by particular separators'
             end
         end
     end
-    # execute
-    set -l output_sets
 
-    while read -l input
+    function __bait_slit -V opt_ofs -a arg
+        set -e argv[1]
+        if test $arg -gt (count $argv)
+            set arg (count $argv)
+        end
+        set -l i 1
+        set -l fst 1
+        while test $i -le $arg
+            set -l lst (math $fst + (count $argv) / $arg - 1)
+            if test $i -le (math (count $argv) \% $arg)
+                set lst (math $lst + 1)
+            end
+            string join $opt_ofs $argv[$fst..$lst]
+            set fst (math $lst + 1)
+            set i (math $i + 1)
+        end
+
+    end
+
+    # read inputs
+    # conv, flat, and slit command read whole input as default behavior
+    set -l inputs
+    if contains $cmd conv flat slit
+        and test $opt_each -ne 1
+        while read -l input
+            set inputs (string join $opt_ifs $inputs $input)
+        end
+    else
+        while read -l input
+            set inputs $inputs $input
+        end
+    end
+
+    # execution
+    set -l output_sets
+    for input in $inputs
         set -l input_fields (string split "$opt_ifs" $input)
 
         # set value of the optional argument
