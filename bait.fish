@@ -7,7 +7,7 @@ function bait -d 'controlling records and fields given by particular separators'
     set -l opt_ofs
     set -l opt_eor
     set -l opt_eos
-    set -l opt_each 0
+    set -l opt_each 0 # 0 or 1
 
     set -l c addb addl addr addt comb conv crops cycle dropl dropr dupl flat
     set c $c grep mirror nestl nestr obrev perm slit stairl stairr sublist
@@ -394,13 +394,6 @@ function bait -d 'controlling records and fields given by particular separators'
         echo -e $arg
     end
 
-    # echo arg "<$arg>"
-    # echo opt_fs "<$opt_fs>"
-    # echo opt_ifs "<$opt_ifs>"
-    # echo opt_ofs "<$opt_ofs>"
-    # echo opt_eor "<$opt_eor>"
-    # echo opt_eos "<$opt_eos>"
-    # echo opt_each "<$opt_each>"
 end
 
 
@@ -440,11 +433,11 @@ function __bait_usage
     echo "      wrap    (replace * in STR with the each fields)"
     echo
     echo "where OPTIONS are some of:"
-    echo "      --fs  STR   field separator (default: ' ')"
-    echo "      --ifs STR   field separator (default: ' ')"
-    echo "      --ofs STR   field separator (default: ' ')"
-    echo "      --eor STR   end of record   (default: \\n)"
-    echo "      --eos STR   end of set      (default: \\n)"
+    echo "      --fs  STR   field separator        (default: ' ')"
+    echo "      --ifs STR   input field separator  (default: ' ')"
+    echo "      --ofs STR   output field separator (default: ' ')"
+    echo "      --eor STR   end of record          (default: \\n)"
+    echo "      --eos STR   end of set             (default: \\n)"
     echo "      --each      manipulate input lines respectively"
     echo "                  (available for flat / conv / slit commands)"
 end
