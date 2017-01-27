@@ -35,7 +35,7 @@ function bait -d 'controlling records and fields given by particular separators'
                     echo "bait: too many arguments" >/dev/stderr
                     return 1
                 else if test (count $argv) -gt 1
-                    set arg $arg (string escape -n $argv[2])
+                    set arg $arg $argv[1]
                     set -e argv[1..2]
                 else
                     set -e argv[1]
@@ -48,35 +48,35 @@ function bait -d 'controlling records and fields given by particular separators'
             case --fs
                 set -e argv[1]
                 if count $argv >/dev/null
-                    set opt_fs (string escape -n $argv[1])
+                    set opt_fs $argv[1]
                     set -e argv[1]
                 end
 
             case --ifs
                 set -e argv[1]
                 if count $argv >/dev/null
-                    set opt_ifs (string escape -n $argv[1])
+                    set opt_ifs $argv[1]
                     set -e argv[1]
                 end
 
             case --ofs
                 set -e argv[1]
                 if count $argv >/dev/null
-                    set opt_ofs (string escape -n $argv[1])
+                    set opt_ofs $argv[1]
                     set -e argv[1]
                 end
 
             case --eor
                 set -e argv[1]
                 if count $argv >/dev/null
-                    set opt_eor (string escape -n $argv[1])
+                    set opt_eor $argv[1]
                     set -e argv[1]
                 end
 
             case --eos
                 set -e argv[1]
                 if count $argv >/dev/null
-                    set opt_eos (string escape -n $argv[1])
+                    set opt_eos $argv[1]
                     set -e argv[1]
                 end
 
@@ -90,7 +90,7 @@ function bait -d 'controlling records and fields given by particular separators'
 
             case \*
                 if test -z "$arg"
-                    set arg (string escape -n $argv[1])
+                    set arg $argv[1]
                     set -e argv[1]
                 else
                     echo "bait: too many arguments" >/dev/stderr
@@ -231,7 +231,7 @@ function bait -d 'controlling records and fields given by particular separators'
         if test "$arg" -lt (count $argv)
             set -l i (math $arg + 1)
             string join $opt_ofs $argv[$i..-1]
-       end 
+        end
     end
 
     function __bait_dropr -V opt_ofs -a arg
