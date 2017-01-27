@@ -453,7 +453,69 @@ function bait -d 'controlling records and fields given by particular separators'
             end
         end
 
-        set -l outpot_records (eval __bait_$cmd $arg $input_fields)
+        # eval __bait_$cmd is unavailable because '' is lost
+        set -l outpot_records (
+            switch $cmd
+                case addb
+                    __bait_addb $arg $input_fields
+                case addl
+                    __bait_addl $arg $input_fields
+                case addr
+                    __bait_addr $arg $input_fields
+                case addt
+                    __bait_addt $arg $input_fields
+                case comb
+                    __bait_comb $arg $input_fields
+                case conv
+                    __bait_conv $arg $input_fields
+                case crops
+                    __bait_crops $arg $input_fields
+                case cycle
+                    __bait_cycle $arg $input_fields
+                case dropl
+                    __bait_dropl $arg $input_fields
+                case dropr
+                    __bait_dropr $arg $input_fields
+                case dupl
+                    __bait_dupl $arg $input_fields
+                case grep
+                    __bait_grep $arg $input_fields
+                case flat
+                    __bait_flat $arg $input_fields
+                case mirror
+                    __bait_mirror $arg $input_fields
+                case nestl
+                    __bait_nestl $arg $input_fields
+                case nestr
+                    __bait_nestr $arg $input_fields
+                case obrev
+                    __bait_obrev $arg $input_fields
+                case perm
+                    __bait_perm $arg $input_fields
+                case slit
+                    __bait_slit $arg $input_fields
+                case stairl
+                    __bait_stairl $arg $input_fields
+                case stairr
+                    __bait_stairr $arg $input_fields
+                case sublist
+                    __bait_sublist $arg $input_fields
+                case subset
+                    __bait_subset $arg $input_fields
+                case takel
+                    __bait_takel $arg $input_fields
+                case takelx
+                    __bait_takelx $arg $input_fields
+                case taker
+                    __bait_taker $arg $input_fields
+                case takerx
+                    __bait_takerx $arg $input_fields
+                case uniq
+                    __bait_uniq $arg $input_fields
+                case wrap
+                    __bait_wrap $arg $input_fields
+            end
+        )
         set output_sets $output_sets (string join "$opt_eor" $outpot_records)
     end
 
