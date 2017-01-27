@@ -14,7 +14,7 @@ function bait -d 'controlling records and fields given by particular separators'
     set c $c subset takel takelx taker takerx uniq wrap
     set -l bait_commands $c
 
-    # parse a command
+    # parse a command (the first argument)
     set cmd "$argv[1]"
     set -e argv[1]
 
@@ -330,7 +330,38 @@ function bait -d 'controlling records and fields given by particular separators'
             set fst (math $lst + 1)
             set i (math $i + 1)
         end
+    end
 
+    # argument is not required
+    function __bait_stairl -V opt_ofs
+        set -l i 1
+        while test $i -le (count $argv)
+            string join $opt_ofs $argv[1..$i]
+            set i (math $i + 1)
+        end
+    end
+
+    # argument is not required
+    function __bait_stairr -V opt_ofs
+        set -l i 1
+        while test $i -le (count $argv)
+            set -l i_ (math - $i)
+            string join $opt_ofs $argv[$i_..-1]
+            set i (math $i + 1)
+        end
+    end
+
+    # argument is not required
+    function __bait_sublist -V opt_ofs
+        set -l lst 1
+        while test $lst -le (count $argv)
+            set -l fst 1
+            while test $fst -le $lst
+                string join $opt_ofs $argv[$fst..$lst]
+                set fst (math $fst + 1)
+            end
+            set lst (math $lst + 1)
+        end
     end
 
     # read inputs

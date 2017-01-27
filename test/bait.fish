@@ -85,12 +85,12 @@ test "echo A B C D | bait mirror"
 end
 
 # bait nestl
-test 'echo aaa bbb ccc | nestl "<p>*</p>"'
+test 'echo aaa bbb ccc | bait nestl "<p>*</p>"'
     "<p> <p> <p> aaa </p> bbb </p> ccc </p>" = (echo aaa bbb ccc | bait nestl "<p>*</p>")
 end
 
 # bait nestr
-test 'echo aaa bbb ccc | nestr "<p>*</p>"'
+test 'echo aaa bbb ccc | bait nestr "<p>*</p>"'
     "<p> aaa <p> bbb <p> ccc </p> </p> </p>" = (echo aaa bbb ccc | bait nestr "<p>*</p>")
 end
 
@@ -105,6 +105,24 @@ test "echo A B C D | bait perm 2"
 end
 
 # bait slit
-test "echo A B C D | slit 3"
+test "echo A B C D | bait slit 3"
     "A B,C,D" = (echo A B C D | bait slit 3 --eor ,)
 end
+
+# bait stairl
+test "echo A B C D | bait stairl"
+    "A,A B,A B C,A B C D" = (echo A B C D | bait stairl --eor ,)
+end
+
+# bait stairr
+test "echo A B C D | bait stairr"
+    "D,C D,B C D,A B C D" = (echo A B C D | bait stairr --eor ,)
+end
+
+# bait sublist
+test "echo A B C D | bait sublist"
+    "A,A B,B,A B C,B C,C,A B C D,B C D,C D,D" = (echo A B C D | bait sublist --eor ,)
+end
+
+
+
