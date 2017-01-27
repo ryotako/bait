@@ -153,7 +153,13 @@ test 'echo QBY JCG FCM PAG TPX BQG UGB | bait takerx "^P.*\$"'
     "PAG TPX BQG UGB" = (echo QBY JCG FCM PAG TPX BQG UGB | takerx "^P.*\$")
 end
 
-# bait wrap
-
 # bait uniq
+test "echo aaa bbb ccc aaa bbb | bait uniq"
+    "aaa bbb ccc" = (echo aaa bbb ccc aaa bbb | bait uniq)
+end
+
+# bait wrap
+test 'echo aaa bbb ccc | wrap "<p>*</p>"'
+    "<p>aaa</p> <p>bbb</p> <p>ccc</p>" = (echo aaa bbb ccc | bait wrap "<p>*</p>")
+end
 

@@ -451,6 +451,26 @@ function bait -d 'controlling records and fields given by particular separators'
             string join $opt_ofs $buf
         end
     end
+    
+    # argument is not required
+    function __bait_uniq -V opt_ofs
+        set -l buf
+        for field in $argv
+            if not contains $field $buf
+                set buf $buf $field
+            end
+        end
+        string join $opt_ofs $buf
+    end
+
+    function __bait_wrap -V opt_ofs -a arg
+        set -e argv[1]
+        set -l buf
+        for field in $argv
+            set buf $buf (string replace \* $field $arg)
+        end
+        string join $opt_ofs $buf
+    end
 
     # read inputs
     # conv, flat, and slit command read whole input as default behavior
