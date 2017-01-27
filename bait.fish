@@ -251,6 +251,18 @@ function bait -d 'controlling records and fields given by particular separators'
         end
     end
 
+    function __bait_grep -V opt_ofs -a arg
+        set -e argv[1]
+        set -l matched
+        for field in $argv
+            if string match -qr $arg $field
+                set matched $matched $field
+            end
+        end
+        string join $opt_ofs $matched
+    end
+
+
     function __bait_flat -V opt_ofs -a arg
         set -e argv[1]
         if test $arg -lt (count $argv)
@@ -421,6 +433,22 @@ function bait -d 'controlling records and fields given by particular separators'
         else if test $arg -gt 0
             set -l i (math - $arg)
             string join $opt_ofs $argv[$i..-1]
+        end
+    end
+
+    function __bait_takerx -V opt_ofs -a arg
+        set -e argv[1]
+        set buf
+        set matched 0
+        for field in $argv[-1..1]
+            set buf $field $buf
+            if string match -qr $arg $field
+                set matched 1
+                break
+            end
+        end
+        if test $matched -eq 1
+            string join $opt_ofs $buf
         end
     end
 

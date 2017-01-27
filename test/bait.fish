@@ -70,6 +70,11 @@ test "echo A B C D | bait dupl 3"
     "A B C D,A B C D,A B C D" = (echo A B C D | bait dupl 3 --eor ,)
 end
 
+# bait grep
+test 'echo 1 2 3 4 5 6 7 8 9 10 | bait grep "1"'
+    "1 10" = (echo 1 2 3 4 5 6 7 8 9 10 | bait grep "1")
+end
+
 # bait flat
 test "seq 10 | bait flat"
     "1 2 3 4 5 6 7 8 9 10" = (seq 10 | bait flat)
@@ -126,5 +131,29 @@ end
 
 # bait subset
 test "echo A B C D | bait subset"
-    "A,B,C,D,A B,A C,B C,A D,B D,C D,A B C,A B D,A C D,B C D,A B C D" = (echo A B C D | bait subset)
+    "A,B,C,D,A B,A C,B C,A D,B D,C D,A B C,A B D,A C D,B C D,A B C D" = (echo A B C D | bait subset --eor ,)
 end
+
+# bait takel
+test "echo A B C D | bait takel 3"
+    "A B C" = (echo A B C D | bait takel 3)
+end
+
+# bait takelx
+test 'echo QBY JCG FCM PAG TPX BQG UGB | bait takelx "^P.*\$"'
+    "QBY JCG FCM PAG" = (echo QBY JCG FCM PAG TPX BQG UGB | takelx "^P.*\$")
+end
+# bait taker
+test "echo A B C D | bait taker 3"
+    "B C D" = (echo A B C D | bait taker 3)
+end
+
+# bait takerx
+test 'echo QBY JCG FCM PAG TPX BQG UGB | bait takerx "^P.*\$"'
+    "PAG TPX BQG UGB" = (echo QBY JCG FCM PAG TPX BQG UGB | takerx "^P.*\$")
+end
+
+# bait wrap
+
+# bait uniq
+
