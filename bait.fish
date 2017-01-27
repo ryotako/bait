@@ -111,7 +111,7 @@ function bait -d 'controlling records and fields given by particular separators'
     switch $cmd
         case comb dropl dropr dupl perm takel taker
             if not test "$arg" -gt 0
-                printf "bait: invalid number argument '%s'\n" "$arg" >/dev/stderr
+                printf "bait: argument '%s' must be a positive number\n" "$arg" >/dev/stderr
                 return 1
             end
         case addb addl addr addt crops grep nestl nestr takelx takerx wrap
@@ -123,7 +123,7 @@ function bait -d 'controlling records and fields given by particular separators'
             # argument is optional
             if test -n "$arg"
                 and not test $arg -gt 0
-                printf "bait: invalid number argument '%s'\n" "$arg" >/dev/stderr
+                printf "bait: argument required '%s' must be a positive number\n" "$arg" >/dev/stderr
                 return 1
             end
         case '*'
@@ -361,6 +361,66 @@ function bait -d 'controlling records and fields given by particular separators'
                 set fst (math $fst + 1)
             end
             set lst (math $lst + 1)
+        end
+    end
+
+    # argument is not required
+    function __bait_subset -V opt_ofs
+        function __bait_subset_ -V opt_ofs -a arg
+            set -e argv[1]
+            set -l i $arg
+            while test $i -le (count $argv)
+                if test $arg -lt 2
+                    echo $argv[$i]
+                else
+                    set i_ (math $i - 1)
+                    for former in (__bait_subset_ (math $arg - 1) $argv[1..$i_])
+                        string join $opt_ofs $former $argv[$i]
+                    end
+                end
+                set i (math $i + 1)
+            end
+        end
+
+        set -l i 1
+        while test $i -le (count $argv)
+            __bait_subset_ $i $argv
+            set i (math $i + 1)
+        end
+    end
+
+    function __bait_takel -V opt_ofs -a arg
+        set -e argv[1]
+        if test $arg -gt (count $argv)
+            string join $opt_ofs $argv
+        else if test $arg -gt 0
+            string join $opt_ofs $argv[1..$arg]
+        end
+    end
+
+    function __bait_takelx -V opt_ofs -a arg
+        set -e argv[1]
+        set buf
+        set matched 0
+        for field in $argv
+            set buf $buf $field
+            if string match -qr $arg $field
+                set matched 1
+                break
+            end
+        end
+        if test $matched -eq 1
+            string join $opt_ofs $buf
+        end
+    end
+
+    function __bait_taker -V opt_ofs -a arg
+        set -e argv[1]
+        if test $arg -gt (count $argv)
+            string join $opt_ofs $argv
+        else if test $arg -gt 0
+            set -l i (math - $arg)
+            string join $opt_ofs $argv[$i..-1]
         end
     end
 

@@ -124,5 +124,7 @@ test "echo A B C D | bait sublist"
     "A,A B,B,A B C,B C,C,A B C D,B C D,C D,D" = (echo A B C D | bait sublist --eor ,)
 end
 
-
-
+# bait subset
+test "echo A B C D | bait subset"
+    "A,B,C,D,A B,A C,B C,A D,B D,C D,A B C,A B D,A C D,B C D,A B C D" = (echo A B C D | bait subset)
+end
