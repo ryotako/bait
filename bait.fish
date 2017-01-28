@@ -585,7 +585,7 @@ end
 function __bait_usage
     echo "Usage: bait [COMMAND] [OPTIONS] [N or STR]"
     echo
-    echo "where COMMAND is one of:)"
+    echo "where COMMAND is one of:"
     echo "      addb    (Add STR to the bottom)"
     echo "      addl    (Add STR to the left side)"
     echo "      addr    (Add STR to the right side)"
