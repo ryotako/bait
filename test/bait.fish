@@ -141,7 +141,7 @@ end
 
 # bait takelx
 test 'echo QBY JCG FCM PAG TPX BQG UGB | bait takelx "^P.*\$"'
-    "QBY JCG FCM PAG" = (echo QBY JCG FCM PAG TPX BQG UGB | takelx "^P.*\$")
+    "QBY JCG FCM PAG" = (echo QBY JCG FCM PAG TPX BQG UGB | bait takelx "^P.*\$")
 end
 # bait taker
 test "echo A B C D | bait taker 3"
@@ -150,7 +150,7 @@ end
 
 # bait takerx
 test 'echo QBY JCG FCM PAG TPX BQG UGB | bait takerx "^P.*\$"'
-    "PAG TPX BQG UGB" = (echo QBY JCG FCM PAG TPX BQG UGB | takerx "^P.*\$")
+    "PAG TPX BQG UGB" = (echo QBY JCG FCM PAG TPX BQG UGB | bait takerx "^P.*\$")
 end
 
 # bait uniq
