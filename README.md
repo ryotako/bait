@@ -85,8 +85,8 @@ GNU style long options
 - --eos `STR` (End of set. The default value is \\n)
 - --each      (Manipulate input lines respectively. This option is available for flat, conv, and slit commands)
 
-[travis-link]: https://travis-ci.org/ryotako/fishbait
-[travis-badge]: https://img.shields.io/travis/ryotako/fishbait.svg
+[travis-link]: https://travis-ci.org/ryotako/bait
+[travis-badge]: https://img.shields.io/travis/ryotako/bait.svg
 [slack-link]: https://fisherman-wharf.herokuapp.com
 [slack-badge]: https://fisherman-wharf.herokuapp.com/badge.svg
 [fisherman]: https://github.com/fisherman/fisherman
