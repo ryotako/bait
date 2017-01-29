@@ -42,7 +42,7 @@ seq 10 | bait flat | bait stairl --ofs "\*" | bait flat | bait wrap '1/\(*\)' --
 
 You can see [more examples](https://github.com/greymd/egzact/blob/master/doc/example.md) for egzact.
 
-## Command
+## Commands
 `bait` command provides the egzact's commands as subcommands.
 
 - [addb](https://github.com/greymd/egzact/blob/master/README.md#-addb) (Add `STR` to the bottom)
